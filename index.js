@@ -29,10 +29,18 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   
   1. What is the difference between counter1 and counter2?
   
+  counter1 is using a closure wherease counter2 is not. Also counter1 is function expression whereas counter2 is a function declaration
+
   2. Which of the two uses a closure? How can you tell?
+
+  counter1 is because it is utilizing a function (called counter) to find the value of count 
+  by going outside of its functional scope into the parent's scope
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+    counter1 would be preferred when needing to make a callback function and more elaborate steps since the function declaration counter 
+    is already declared within it. Counter2 would be better for more basic functionality for counting, such as implementing a for loop.
+
 */
 
 // counter1 code
