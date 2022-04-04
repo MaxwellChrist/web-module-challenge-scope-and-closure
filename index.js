@@ -38,8 +38,8 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
-    counter1 would be preferred when needing to make a callback function and more elaborate steps since the function declaration counter 
-    is already declared within it. Counter2 would be better for more basic functionality for counting, such as implementing a for loop.
+    counter1 would be preferred when needing to keep updating the count within the function since it is defined in the functional scope.
+    counter2 would be preferred if the count is not supposed to update, since it is defined in the global scope
 
 */
 
@@ -70,10 +70,12 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
-}
+function inning(){
+  const score = Math.floor(Math.random() * 3)
+  return score;
 
+}
+inning()
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
 Use the finalScore function below to do the following:
@@ -89,18 +91,32 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore(inning, inningTotal){
+  let homeScore = 0;
+  let awayScore = 0;
+  for(let i = 0; i < inningTotal ; i++){
+    homeScore = homeScore + inning();
+    awayScore = awayScore + inning();
+  }
+  return {
+    Home: homeScore,
+    Away: awayScore
+  }
 }
+console.log(finalScore(inning, 9))
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
   1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
-}
+  function getInningScore(inning) {
+    return {
+      Home: inning(),
+      Away: inning()
+    }
+  }
+  console.log(getInningScore(inning))
 
 
 /* ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
@@ -110,8 +126,9 @@ Use the scoreboard function below to do the following:
   3. Receive a number of innings to be played
   4. Return an array where each of it's index values equals a string stating the
   Home and Away team's scores for each inning.  Not the cummulative score.
-  5. If there's a tie at the end of the innings, add this message containing the score to the end of the array:  "This game will require extra innings: Away 12 - Home 12"  (see tie example below)
-     If there isn't a tie, add this message to the end of the array: "Final Score: Away 13 - Home 11"  (see no tie example below)
+  5. If there's a tie at the end of the innings, add this message containing the score to the end of the array:  "This game will require extra innings: 
+  Away 12 - Home 12"  (see tie example below)
+  If there isn't a tie, add this message to the end of the array: "Final Score: Away 13 - Home 11"  (see no tie example below)
   
   NO TIE example: invoking scoreboard(getInningScore,inning, 9) might return 
   an array of strings like this:
@@ -144,12 +161,23 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore, inning, inningTotal) {
+  let homeScore = 0;
+  let awayScore = 0;
+  let total = [];
+  for (let i = 0; i < inningTotal; i++) {
+    let current = getInningScore(inning)
+    homeScore = homeScore + getInningScore.Home
+    awayScore = awayScore + getInningScore.Away
+    total.push(`Inning ${i}: Away ${current.Away} - Home ${current.Home}`)
+  }
+  if (homeScore === awayScore) {
+    total.push(`This game will require extra innings: Away ${current.Away} - Home ${current.Home}`)
+  } else {
+    total.push(`Final Score: Away ${current.Away} - Home ${current.Home}`)
+  }
+  return total
 }
-
-
-
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
 function foo(){
